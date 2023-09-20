@@ -115,3 +115,66 @@ Handle two scenarios: one for when no books are found on the page and another fo
 else:
     print('Failed to retrieve the webpage.')
 ```
+
+
+
+## Version 2: Scraping Multiple Python Books
+
+Before we dive into the code changes for this version, let's start by identifying the code that needs to be removed from the previous version. We'll remove the code responsible for extracting and displaying information about a single book entry since we'll be transitioning to extracting multiple book entries.
+
+#### Code to Remove (From Previous Version)
+
+Please remove the following code block, as it's no longer needed:
+
+```python
+-     # Extract Title, Author, and Rating for the first book
+-     title = first_book.find('span', itemprop="name")
+-     author = first_book.find('span', itemprop="author")
+-     rating = first_book.find('span', class_="minirating")
+- 
+-     # Display Book Information for the first book
+-     if title and author and rating:
+-         title_text = title.text.strip()
+-         author_text = author.text.strip()
+-         rating_text = rating.text.strip()
+-         print("Title:", title_text)
+-         print("Author:", author_text)
+-         print("Rating:", rating_text)
+-     else:
+-         print("No books found on the page.")
+```
+
+Now that we've removed the unnecessary code, let's proceed to the last steps of Version 2 with more detail.
+
+### Step 1: Extracting Multiple Book Entries
+
+We've modified the code to locate all the HTML elements representing book entries on the page. Here's the updated code:
+
+```python
+-    first_book = soup.find('tr', itemtype="http://schema.org/Book")
++    # Locate all book entries on the page
++    book_entries = soup.find_all('tr', itemtype="http://schema.org/Book")
+```
+
+### Step 2: Loop Through Book Entries
+
+We're now looping through each book entry, extracting book details, and printing them. This allows us to gather information for multiple books. Here's the code for this step:
+
+```python
++     # Loop through each book entry and extract details
++     for i, book_entry in enumerate(book_entries, start=1):
++         title = book_entry.find('span', itemprop="name")
++         author = book_entry.find('span', itemprop="author")
++         rating = book_entry.find('span', class_="minirating")
++  
++         if title and author and rating:
++             title_text = title.text.strip()
++             author_text = author.text.strip()
++             rating_text = rating.text.strip()
++             print(f"Book {i}:")
++             print(f"Title: {title_text}")
++             print(f"Author: {author_text}")
++             print(f"Rating: {rating_text}")
+```
+
+These code changes enable us to scrape and display information about multiple Python programming books from Goodreads. If you have any further questions or are ready to proceed, please let me know.
